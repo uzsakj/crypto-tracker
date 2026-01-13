@@ -73,17 +73,17 @@ export const CryptoCard = ({ crypto }) => {
 
                 </div>
 
-                <div className="flex justify-between gap-4 pt-4 border-t-4 border-solid border border-[rgba(255, 255, 255, 0.1)]">
-                    <div className="flex flex-col gap-1">
-                        <span className="text-xs font-semibold uppercase">Market Cap</span>
-                        <span className=" text-[#e0e0e0] font-bold">
+                <div className="flex justify-between gap-4 pt-4  border-t-4 border-solid border border-[rgba(255, 255, 255, 0.1)]">
+                    <div className="flex flex-col gap-1 text-[#e0e0e0] ">
+                        <span className=" text-xs font-semibold uppercase">Market Cap</span>
+                        <span className="font-bold">
                             ${formatMarketCap(crypto.market_cap)}
                         </span>
                     </div>
 
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 text-[#e0e0e0]">
                         <span className="text-xs font-semibold uppercase">Volume</span>
-                        <span className="text-[#e0e0e0] font-bold">
+                        <span className="font-bold">
                             ${formatMarketCap(crypto.total_volume)}
                         </span>
                     </div>
