@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router";
 import { fetchChartData, fetchCoinData } from "../api/coinGecko";
 import { useEffect, useState } from "react";
 import { formatMarketCap, formatPrice } from "../utils/formatter";
+import { CryptoHeader } from "../components/CryptoHeader";
 import {
     CartesianGrid,
     LineChart,
@@ -81,14 +82,8 @@ export const CoinDetail = () => {
     const isPositive = priceChange >= 0;
     return (
         <div className="min-h-full bg-[#010203] p-0 ">
-            <header className=" bg-[rgba(20, 20, 0, 0.95)] backdrop-blur-xl shadow-lg p-8 sticky top-0 z-100 border-b-2 border-[rgba(255, 255, 255, 0.1)]">
-                <div className="max-w-360 m-0 p-0 px-8 flex justify-between items-center gap-8 flex-wrap ">
-                    <div >
-                        <h1 className="text-[2.5rem] bg-[#add8e6] text-transparent bg-clip-text mb-2 font-bold">🚀 Crypto Tracker</h1>
-                        <p className="text-[#a0a0b0] text-base" >Real-time cryptocurrency prices and market data</p>
-                    </div>
-
-                    <button onClick={() => navigate("/")} className="
+            <CryptoHeader>
+                <button onClick={() => navigate("/")} className="
                     inline-block
                     px-3 py-6
                     bg-[rgba(255, 255, 255, 0.05)]
@@ -102,10 +97,9 @@ export const CoinDetail = () => {
                     hover:bg-[rgba(255, 255, 255, 0.1)]
                     hover:border-[rgba(255, 255, 255, 0.2)]
                     ">
-                        ← Back to List
-                    </button>
-                </div>
-            </header>
+                    ← Back to List
+                </button>
+            </CryptoHeader>
 
             <div className="max-w-350 mx-0 my-auto p-8">
                 <div className="flex justify-between items-center mb-8 flex-wrap gap-4">

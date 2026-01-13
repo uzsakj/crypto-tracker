@@ -1,13 +1,16 @@
 import { useEffect, useState, useCallback } from "react";
 import { fetchCryptos } from "../api/coinGecko";
 import { CryptoCard } from "../components/CryptoCard";
+import { CryptoHeader } from "../components/CryptoHeader";
+import { useDebounce } from "../hooks/useDebounce";
 export const Home = () => {
     const [cryptoList, setCryptoList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("market_cap_rank");
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchInput, setSearchInput] = useState("");
+    const debouncedSearchQuery = useDebounce(searchInput, 500);
 
     useEffect(() => {
         const interval = setInterval(fetchCryptoData, 3000);
@@ -31,8 +34,8 @@ export const Home = () => {
     const filterAndSort = useCallback(() => {
         let filtered = cryptoList.filter(
             (crypto) =>
-                crypto.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                crypto.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+                crypto.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+                crypto.symbol.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
         );
 
         filtered.sort((a, b) => {
@@ -53,7 +56,7 @@ export const Home = () => {
         });
 
         setFilteredList(filtered);
-    }, [cryptoList, searchQuery, sortBy]);
+    }, [cryptoList, debouncedSearchQuery, sortBy]);
 
 
     useEffect(() => {
@@ -61,38 +64,8 @@ export const Home = () => {
     }, [filterAndSort]);
     return (
         <div className=" place-items-center m-0 min-h-full min-w-[320px] bg-[#010203] p-0">
-            <header className="
-            sticky
-            w-3/4
-            backdrop-blur-20
-            shadow-[0_8px_32px_rgba(0,0,0,0.4)]
-            p-8
-            top-0 z-100
-            border-b border border-solid border-[rgba(255, 255, 255, 0.1)]
-            ">
-                <div className=" flex flex-wrap max-w-360 mx-0 my-auto px-0 py-8 justify-between items-center gap-8 ">
-                    <div className="">
-                        <h1 className="text-4xl bg-[#add8e6] bg-clip-text text-transparent mb-2 font-bold" >🚀 Crypto Tracker</h1>
-                        <p className="text-[#a0a0b0] text-base">Real-time cryptocurrency prices and market data</p>
-                    </div>
-                    <div className="flex-1 max-w-125">
-                        <input
-                            type="text"
-                            placeholder="Search cryptos..."
-                            className="
-                            placeholder:text-[#6b6b7a]
-                            focus:outline-none
-                            focus:border-[#add8e6]
-                            focus:ring-4
-                            focus:ring-[#add8e6]/20
-                            focus:bg-white/10
-                            "
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            value={searchQuery}
-                        />
-                    </div>
-                </div>
-            </header>
+            <CryptoHeader searchQuery={searchInput} setSearchQuery={setSearchInput} />
+
             <div className="
                 max-w-350
                 w-full
