@@ -3,6 +3,7 @@ import { fetchCryptos } from "../api/coinGecko";
 import { CryptoCard } from "../components/CryptoCard";
 import { CryptoHeader } from "../components/CryptoHeader";
 import { useDebounce } from "../hooks/useDebounce";
+import { CryptoFooter } from "../components/CryptoFooter";
 export const Home = () => {
     const [cryptoList, setCryptoList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
@@ -167,12 +168,8 @@ export const Home = () => {
                     ))}
                 </div>
             )}
+            <CryptoFooter />
 
-            <footer className="bg-[rgba(20,20,40,0.4)] backdrop-blur-xl p-8 text-center mt-12 border-t border-white/10">
-                <p className="text-[#9ca3af] font-medium">
-                    Data provided by CoinGecko API • Updated every 30 seconds
-                </p>
-            </footer>
         </div>
     );
 };

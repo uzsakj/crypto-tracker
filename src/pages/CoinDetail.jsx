@@ -3,6 +3,7 @@ import { fetchChartData, fetchCoinData } from "../api/coinGecko";
 import { useEffect, useState } from "react";
 import { formatMarketCap, formatPrice } from "../utils/formatter";
 import { CryptoHeader } from "../components/CryptoHeader";
+import { CryptoFooter } from "../components/CryptoFooter";
 import {
     CartesianGrid,
     LineChart,
@@ -289,11 +290,7 @@ export const CoinDetail = () => {
                     </div>
                 </div>
             </div>
-            <footer className="bg-[rgba(20,20,40,0.4)] backdrop-blur-xl p-8 text-center mt-12 border-t border-white/10">
-                <p className="text-[#9ca3af] font-medium">
-                    Data provided by CoinGecko API • Updated every 30 seconds
-                </p>
-            </footer>
+            <CryptoFooter />
         </div>
     );
 };
