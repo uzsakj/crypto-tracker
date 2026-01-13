@@ -82,7 +82,7 @@ export const Home = () => {
                 max-md:flex-col
                 max-md:items-stretch
             ">
-                <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center">
+                <div className="flex flex-row justify-center items-center gap-4 ">
                     <label className="text-[#e0e0e0] font-medium">Sort by:</label>
                     <select
                         className="
@@ -113,9 +113,10 @@ export const Home = () => {
                         <option value="market_cap">Market Cap</option>
                     </select>
                 </div>
-                <div className="flex gap-3 gap-x-6 border-2 border-solid border-[rgba((255, 255, 255, 0.1)] border-8 bg-[rgba(255, 255, 255, 0.05)] text-[#0e0e0e] font-medium cursor-pointer backdrop-blur-md transition-all duration-300 ease-in-out">
+                <div className="flex justify-center gap-3 gap-x-6   bg-[rgba(255, 255, 255, 0.05)] text-[#0e0e0e] font-medium cursor-pointer backdrop-blur-md transition-all duration-300 ease-in-out">
                     <button
                         className={`
+                        min-w-20
                         px-3 py-6 rounded-lg
                         border
                         font-semibold
@@ -134,8 +135,8 @@ export const Home = () => {
                     </button>
                     <button
                         className={`
-                        px-6 py-3
-                        rounded-lg
+                        min-w-20
+                        px-6 py-3 rounded-lg
                         border
                         font-semibold
                         cursor-pointer

@@ -20,7 +20,7 @@ export const CryptoHeader = ({ searchQuery, setSearchQuery, children }) => {
     }, []);
 
     return (
-        <header className={`
+        <div className={`
             sticky
             w-full
             backdrop-blur-20
@@ -32,12 +32,12 @@ export const CryptoHeader = ({ searchQuery, setSearchQuery, children }) => {
             transition-transform duration-300
             ${isVisible ? 'translate-y-0' : '-translate-y-full'}
             `}>
-            <div className=" flex flex-wrap max-w-360 mx-0 my-auto px-0 py-8 justify-between items-center gap-8 ">
+            <div className=" flex flex-wrap max-w-360 mx-auto my-auto px-0 py-8 justify-between items-center gap-8 ">
                 <div className="">
                     <h1 className="text-4xl bg-[#add8e6] bg-clip-text text-transparent mb-2 font-bold" >🚀 Crypto Tracker</h1>
                     <p className="text-[#a0a0b0] text-base">Real-time cryptocurrency prices and market data</p>
                 </div>
-                <div className="flex-1 max-w-125 flex justify-end">
+                <div className="flex-1 max-w-125 flex justify-center md:justify-end">
                     {searchQuery !== undefined ? (
                         <input
                             type="text"
@@ -62,6 +62,6 @@ export const CryptoHeader = ({ searchQuery, setSearchQuery, children }) => {
                     )}
                 </div>
             </div>
-        </header>
+        </div>
     )
 }

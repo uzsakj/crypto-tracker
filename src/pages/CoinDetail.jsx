@@ -81,7 +81,7 @@ export const CoinDetail = () => {
     const priceChange = coin.market_data.price_change_percentage_24h || 0;
     const isPositive = priceChange >= 0;
     return (
-        <div className="min-h-full bg-[#010203] p-0 ">
+        <div className=" place-items-center m-0 min-h-full min-w-[320px] bg-[#010203] p-0">
             <CryptoHeader>
                 <button onClick={() => navigate("/")} className="
                     inline-block
@@ -89,19 +89,22 @@ export const CoinDetail = () => {
                     bg-[rgba(255, 255, 255, 0.05)]
                     border border-solid border-[rgba(255, 255, 255, 0.1)]
                     rounded-lg
+                    border-white/10
+                    bg-white/5
                     text-[#e0e0e0]
                     font-semibold
                     cursor-pointer
                     no-underline
                     transition ease-in-out duration-300
-                    hover:bg-[rgba(255, 255, 255, 0.1)]
                     hover:border-[rgba(255, 255, 255, 0.2)]
+                    hover:bg-white/10
+                     hover:border-white/20
                     ">
                     ← Back to List
                 </button>
             </CryptoHeader>
 
-            <div className="max-w-350 mx-0 my-auto p-8">
+            <div className="max-w-350 w-full mx-auto my-auto p-8">
                 <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
                     <div className="flex items-center gap-6">
                         <img className="w-16 h-16 rounded-full border-solid border-2 border-[rgba(173, 216, 230, 0.3)]" src={coin.image.large} alt={coin.name} />
