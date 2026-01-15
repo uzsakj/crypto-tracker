@@ -16,7 +16,21 @@ export const coinGeckoApi = createApi({
             providesTags: (result, error, id) => [{ type: 'Coin', id }],
         }),
         getChartData: builder.query({
-            query: ({ id, days = 7 }) => `/coins/${id}/market_chart?vs_currency=usd&days=${days}`,
+            query: ({ id, days, from, to, interval }) => {
+                // Use range endpoint if from/to are provided, otherwise use days endpoint
+                if (from !== undefined && to !== undefined) {
+                    const params = new URLSearchParams({
+                        vs_currency: 'usd',
+                        from: from.toString(),
+                        to: to.toString(),
+                    });
+                    if (interval) {
+                        params.append('interval', interval);
+                    }
+                    return `/coins/${id}/market_chart/range?${params.toString()}`;
+                }
+                return `/coins/${id}/market_chart?vs_currency=usd&days=${days || 7}`;
+            },
             providesTags: (result, error, { id }) => [{ type: 'Chart', id }],
         }),
     }),
