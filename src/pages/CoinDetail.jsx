@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
-import { fetchChartData, fetchCoinData } from "../api/coinGecko";
-import { useEffect, useState } from "react";
+import { useGetCoinDataQuery, useGetChartDataQuery } from "../store/coinGeckoApi";
+import { useMemo } from "react";
 import { formatMarketCap, formatPrice } from "../utils/formatter";
 import { CryptoHeader } from "../components/CryptoHeader";
 import { CryptoFooter } from "../components/CryptoFooter";
@@ -17,45 +17,21 @@ import {
 export const CoinDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [coin, setCoin] = useState(null);
-    const [chartData, setChartData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const { data: coin, isLoading: isLoadingCoin, error: coinError } = useGetCoinDataQuery(id);
+    const { data: chartDataRaw, isLoading: isLoadingChart, error: chartError } = useGetChartDataQuery({ id, days: 7 });
 
-    useEffect(() => {
-        loadCoinData();
-        loadChartData();
-    }, [id]);
+    const chartData = useMemo(() => {
+        if (!chartDataRaw?.prices) return [];
+        return chartDataRaw.prices.map((price) => ({
+            time: new Date(price[0]).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+            }),
+            price: price[1].toFixed(2),
+        }));
+    }, [chartDataRaw]);
 
-    const loadCoinData = async () => {
-        try {
-            const data = await fetchCoinData(id);
-            setCoin(data);
-        } catch (err) {
-            console.error("Error fetching crypto: ", err);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const loadChartData = async () => {
-        try {
-            const data = await fetchChartData(id);
-
-            const formattedData = data.prices.map((price) => ({
-                time: new Date(price[0]).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                }),
-                price: price[1].toFixed(2),
-            }));
-
-            setChartData(formattedData);
-        } catch (err) {
-            console.error("Error fetching crypto: ", err);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const isLoading = isLoadingCoin || isLoadingChart;
 
     if (isLoading) {
         return (
@@ -68,12 +44,29 @@ export const CoinDetail = () => {
         );
     }
 
-    if (!coin) {
+    if (coinError || chartError || !coin) {
         return (
             <div className="min-h-full bg-[#010203] p-0">
                 <div className="text-center px-16 py-8 text-[#e0e0e0] text-xl ">
-                    <p>Coin not found</p>
-                    <button onClick={() => navigate("/")}>Go Back</button>
+                    <p>Coin not found or error loading data</p>
+                    <button onClick={() => navigate("/")} className="
+                        inline-block
+                        px-3 py-6
+                        bg-[rgba(255, 255, 255, 0.05)]
+                        border border-solid border-[rgba(255, 255, 255, 0.1)]
+                        rounded-lg
+                        border-white/10
+                        bg-white/5
+                        text-[#e0e0e0]
+                        font-semibold
+                        cursor-pointer
+                        no-underline
+                        transition ease-in-out duration-300
+                        hover:border-[rgba(255, 255, 255, 0.2)]
+                        hover:bg-white/10
+                        hover:border-white/20
+                        mt-4
+                    ">Go Back</button>
                 </div>
             </div>
         );

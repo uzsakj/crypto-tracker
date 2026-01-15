@@ -24,15 +24,14 @@ export const CryptoHeader = ({ searchQuery, setSearchQuery, children }) => {
             sticky
             w-full
             backdrop-blur-20
-            bg-linear-to-b from-black/95 to-black/80
+            bg-linear-to-b from-[rgba(20,20,40,0.95)] to-[rgba(20,20,40,0.3)]
             shadow-[0_8px_32px_rgba(0,0,0,0.4)]
-            p-8
             top-0 z-100
             border-b border border-solid border-[rgba(255, 255, 255, 0.1)]
             transition-transform duration-300
             ${isVisible ? 'translate-y-0' : '-translate-y-full'}
             `}>
-            <div className=" flex flex-wrap max-w-360 mx-auto my-auto px-0 py-8 justify-between items-center gap-8 ">
+            <div className=" flex flex-wrap max-w-360 mx-auto my-auto p-4 justify-between items-center gap-8 ">
                 <div className="">
                     <h1 className="text-4xl bg-[#add8e6] bg-clip-text text-transparent mb-2 font-bold" >🚀 Crypto Tracker</h1>
                     <p className="text-[#a0a0b0] text-base">Real-time cryptocurrency prices and market data</p>
