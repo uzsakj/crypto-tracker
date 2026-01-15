@@ -2,9 +2,36 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
+const baseQueryWithRetry = fetchBaseQuery({
+    baseUrl: BASE_URL,
+});
+
+// Wrapper to add retry logic
+const baseQuery = async (args, api, extraOptions) => {
+    let result = await baseQueryWithRetry(args, api, extraOptions);
+
+    // Retry on failure (up to 3 times)
+    if (result.error) {
+        const maxRetries = 3;
+        let retryCount = 0;
+
+        while (retryCount < maxRetries && result.error) {
+            retryCount++;
+            // Wait before retrying (exponential backoff)
+            await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+            result = await baseQueryWithRetry(args, api, extraOptions);
+
+            // If successful, break the loop
+            if (!result.error) break;
+        }
+    }
+
+    return result;
+};
+
 export const coinGeckoApi = createApi({
     reducerPath: 'coinGeckoApi',
-    baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+    baseQuery,
     tagTypes: ['Cryptos', 'Coin', 'Chart'],
     endpoints: (builder) => ({
         getCryptos: builder.query({

@@ -5,8 +5,11 @@ import { CryptoHeader } from "../components/CryptoHeader";
 import { useDebounce } from "../hooks/useDebounce";
 import { CryptoFooter } from "../components/CryptoFooter";
 export const Home = () => {
-    const { data: cryptoList = [], isLoading, error } = useGetCryptosQuery(undefined, {
+    const { data: cryptoList = [], isLoading, error, refetch } = useGetCryptosQuery(undefined, {
         pollingInterval: 30000, // Poll every 30 seconds
+        // Retry on error
+        refetchOnMountOrArgChange: true,
+        skip: false,
     });
     const [viewMode, setViewMode] = useState("grid");
     const [sortBy, setSortBy] = useState("market_cap_rank");
@@ -59,34 +62,42 @@ export const Home = () => {
             ">
                 <div className="flex flex-row justify-center items-center gap-4 ">
                     <label className="text-[#e0e0e0] font-medium">Sort by:</label>
-                    <select
-                        className="
-                        px-5 py-3
-                        rounded-lg
-                        border border-white/10
-                        bg-white/5
-                        text-white
-                        text-[0.95rem]
-                        cursor-pointer
-                        backdrop-blur-md
-                        transition-all duration-300 ease-in-out
-                        appearance-none
-                        hover:bg-white/10
-                        focus:outline-none
-                        focus:border-[#add8e6]
-                        focus:ring-4
-                        focus:ring-[#add8e6]/20
-                        "
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                    >
-                        <option value="market_cap_rank">Rank</option>
-                        <option value="name">Name</option>
-                        <option value="price">Price (Low to High)</option>
-                        <option value="price_desc">Price (High to Low)</option>
-                        <option value="change">24h Change</option>
-                        <option value="market_cap">Market Cap</option>
-                    </select>
+                    <div className="relative">
+                        <select
+                            className="
+                            pl-5 pr-10 py-3
+                            rounded-lg
+                            border border-white/10
+                            bg-[rgba(255,255,255,0.05)]
+                            text-white
+                            text-[0.95rem]
+                            cursor-pointer
+                            backdrop-blur-md
+                            transition-all duration-300 ease-in-out
+                            hover:bg-[rgba(255,255,255,0.1)]
+                            focus:outline-none
+                            focus:border-[#add8e6]
+                            focus:ring-4
+                            focus:ring-[#add8e6]/20
+                            appearance-none
+                            w-full
+                            "
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                        >
+                            <option value="market_cap_rank">Rank</option>
+                            <option value="name">Name</option>
+                            <option value="price">Price (Low to High)</option>
+                            <option value="price_desc">Price (High to Low)</option>
+                            <option value="change">24h Change</option>
+                            <option value="market_cap">Market Cap</option>
+                        </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                            <svg className="w-4 h-4 text-[#e0e0e0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
                 <div className="flex justify-center pt-3 gap-3 gap-x-6   bg-[rgba(255, 255, 255, 0.05)] text-[#0e0e0e] font-medium cursor-pointer backdrop-blur-md transition-all duration-300 ease-in-out">
                     <button
@@ -137,7 +148,24 @@ export const Home = () => {
                 </div>
             ) : error ? (
                 <div className="flex flex-col flex-1 items-center justify-center px-16 py-8 text-[#e0e0e0] gap-4">
-                    <p className="text-[1.1rem] font-medium text-red-500">Error loading crypto data. Please try again later.</p>
+                    <p className="text-[1.1rem] font-medium text-red-500">Error loading crypto data.</p>
+                    <button
+                        onClick={() => refetch()}
+                        className="
+                            px-6 py-3
+                            bg-[#add8e6]
+                            text-[#010203]
+                            rounded-lg
+                            font-semibold
+                            cursor-pointer
+                            transition-all duration-300 ease-in-out
+                            hover:bg-[#add8e6]/80
+                            hover:shadow-lg
+                            hover:shadow-[#add8e6]/30
+                        "
+                    >
+                        Retry
+                    </button>
                 </div>
             ) : (
                 <div className={`max-w-350 mx-auto p-8 ${viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "grid grid-cols-1 gap-4"}`}>

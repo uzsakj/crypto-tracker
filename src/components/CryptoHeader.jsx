@@ -33,7 +33,7 @@ export const CryptoHeader = ({ searchQuery, setSearchQuery, children }) => {
             `}>
             <div className=" flex flex-wrap max-w-360 mx-auto my-auto p-4 justify-between items-center gap-4 md:gap-8 ">
                 <div className="">
-                    <h1 className="text-2xl md:text-4xl bg-[#add8e6] bg-clip-text text-transparent mb-1 md:mb-2 font-bold" >🚀 Crypto Tracker</h1>
+                    <h1 className="text-2xl md:text-4xl bg-[#add8e6] bg-clip-text text-transparent mb-1 md:mb-2 font-bold" >Crypto Tracker</h1>
                     <p className="text-[#a0a0b0] text-sm md:text-base">Real-time cryptocurrency prices and market data</p>
                 </div>
                 <div className="flex-1 max-w-125 flex justify-center md:justify-end">

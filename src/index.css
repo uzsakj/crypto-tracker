@@ -61,3 +61,35 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Select dropdown styling */
+select {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  border-radius: 8px;
+}
+
+select option {
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  padding: 8px;
+}
+
+/* For WebKit browsers  */
+select::-webkit-scrollbar {
+  width: 8px;
+}
+
+select::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb {
+  background: rgba(173, 216, 230, 0.3);
+  border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background: rgba(173, 216, 230, 0.5);
+}
